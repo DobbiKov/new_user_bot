@@ -1,0 +1,9 @@
+pyrogram
+mtranslate
+SpeechRecognition 
+pydub
+ffmpeg
+ffprobe
+requests
+beautifulsoup4
+tgcrypto

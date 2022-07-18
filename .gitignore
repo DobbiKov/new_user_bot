@@ -1,0 +1,8 @@
+config.ini
+/env
+/downloads
+/dependecys
+log.txt
+*.session
+unknown_errors.txt
+__pycache__
