@@ -1,5 +1,6 @@
 import speech_recognition as sr
 from pydub import AudioSegment
+from mtranslate import translate as translateFunc
 import os
 # import SpeechRecognition as sr
 
@@ -33,3 +34,9 @@ def delete_files(file_name):
     import_path = file_name.replace(".wav", ".ogg")
     os.remove(export_path)
     os.remove(import_path)
+
+def translate_voice_texts(text_fr, text_ua):
+    translated_text_ua = translateFunc(text_fr, "uk", "fr")
+    translated_text_fr = translateFunc(text_ua, "fr", "uk")
+
+    return translated_text_fr, translated_text_ua
