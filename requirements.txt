@@ -7,3 +7,4 @@ ffprobe
 requests
 beautifulsoup4
 tgcrypto
+gTTS
