@@ -4,41 +4,26 @@ from mtranslate import translate as translateFunc
 import os
 from datetime import datetime
 from gtts import gTTS
+import threading
 # import SpeechRecognition as sr
 
 r = sr.Recognizer()
 
-def translate_voice_bilingual(file_name):
-    with sr.AudioFile(file_name) as source:
-        # listen for the data (load audio to memory)
-        audio_data = r.record(source)
-        # recognize (convert from speech to text)
-        text_fr = ""
-        text_ua = ""
+class ThreadRecognize (threading.Thread):
+    def __init__(self, audio, language):    # event = objet Event
+        threading.Thread.__init__(self)  # = donnée supplémentaire
+        self.audio = audio
+        self.event = threading.Event()                 # on garde un accès à l'objet Event
+        self.event.clear()
+        self.language = language
+ 
+    def run(self):
+        self.result=r.recognize_google(self.audio, language=self.language, show_all=True)
+        self.event.set()
+ 
+    def wait(self):
+        self.event.wait()
 
-        try:
-            text_fr = r.recognize_google(audio_data, language="fr-FR", show_all=True)
-            text_ua = r.recognize_google(audio_data, language="uk-UA", show_all=True)
-            french_text = french_confidence = ukrainian_text = ukrainian_confidence = None
-            try:
-                french_text = text_fr["alternative"][0]["transcript"]
-                french_confidence = text_fr["alternative"][0]["confidence"]
-            except: 
-                french_text = ""
-                french_confidence = 0
-
-            try:
-                ukrainian_text = text_ua["alternative"][0]["transcript"]
-                ukrainian_confidence = text_ua["alternative"][0]["confidence"]
-            except:
-                ukrainian_text = ""
-                ukrainian_confidence = 0
-
-            
-        except: 
-            pass
-
-        return text_fr, text_ua
 async def translate_voice(file_name):
     with sr.AudioFile(file_name) as source:
         # listen for the data (load audio to memory)
@@ -48,7 +33,21 @@ async def translate_voice(file_name):
         text_ua = ""
 
         try:
-            text_fr, text_ua = await recognize_func(audio_data)
+            # text_fr, text_ua = recognize_func(audio_data)
+            print(datetime.now())
+            threads = []
+            threads.append(ThreadRecognize(audio_data, language="fr-FR"))
+            threads.append(ThreadRecognize(audio_data, language="uk-UA"))
+            for thread in threads:
+                thread.start()
+            for thread in threads:
+                thread.join() 
+            text_fr = threads[0].result
+            text_ua = threads[1].result
+            print(datetime.now())
+            text_fr_ = r.recognize_google(audio_data, language="fr-FR", show_all=True)
+            text_ua_ = r.recognize_google(audio_data, language="uk-UA", show_all=True)
+            print(datetime.now())
             french_text = french_confidence = ukrainian_text = ukrainian_confidence = None
             try:
                 french_text = text_fr["alternative"][0]["transcript"]
@@ -90,9 +89,15 @@ def delete_files(file_name):
     export_path = file_name
     import_path = file_name.replace(".wav", ".ogg")
     voice_path = file_name.replace(".wav", "_voice.wav")
-    os.remove(export_path)
-    os.remove(import_path)
-    os.remove(voice_path)
+    delete_file(export_path)
+    delete_file(import_path)
+    delete_file(voice_path)
+
+def delete_file(path):
+    try:
+        os.remove(path)
+    except:
+        pass
 
 def translate_voice_text(text, lang):
     if lang == "uk":
