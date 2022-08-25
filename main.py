@@ -14,6 +14,7 @@ from handlers.shortcuts import short_tanks
 from handlers.beautiful_type import beautiful_type
 from handlers.google_search import google_search
 from handlers.mafia_call import mafia
+from handlers.get_chat_id import get_chat_id
 
 # app = Client("my_account", api_id=api_id, api_hash=api_hash)
 app = Client("my_account")
@@ -26,6 +27,7 @@ app.add_handler(message_handler.MessageHandler(translateru, filters=filters.comm
 app.add_handler(message_handler.MessageHandler(translatefr, filters=filters.command("fr", prefixes="#")))
 app.add_handler(message_handler.MessageHandler(translateua, filters=filters.command("ua", prefixes="#")))
 
+app.add_handler(message_handler.MessageHandler(get_chat_id, filters=filters.command("get_chat_id", prefixes="#") & filters.me))
 app.add_handler(message_handler.MessageHandler(mafia, filters=filters.command("mafia", prefixes="#") & filters.me))
 app.add_handler(message_handler.MessageHandler(google_search, filters=filters.command("23", prefixes="#")))
 app.add_handler(message_handler.MessageHandler(beautiful_type, filters=filters.command("type", prefixes=".") & filters.me))

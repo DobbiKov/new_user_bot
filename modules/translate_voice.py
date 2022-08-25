@@ -34,7 +34,6 @@ async def translate_voice(file_name):
 
         try:
             # text_fr, text_ua = recognize_func(audio_data)
-            print(datetime.now())
             threads = []
             threads.append(ThreadRecognize(audio_data, language="fr-FR"))
             threads.append(ThreadRecognize(audio_data, language="uk-UA"))
@@ -44,10 +43,6 @@ async def translate_voice(file_name):
                 thread.join() 
             text_fr = threads[0].result
             text_ua = threads[1].result
-            print(datetime.now())
-            text_fr_ = r.recognize_google(audio_data, language="fr-FR", show_all=True)
-            text_ua_ = r.recognize_google(audio_data, language="uk-UA", show_all=True)
-            print(datetime.now())
             french_text = french_confidence = ukrainian_text = ukrainian_confidence = None
             try:
                 french_text = text_fr["alternative"][0]["transcript"]
