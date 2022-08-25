@@ -15,6 +15,7 @@ from handlers.beautiful_type import beautiful_type
 from handlers.google_search import google_search
 from handlers.mafia_call import mafia
 from handlers.get_chat_id import get_chat_id
+from handlers.without_handlers import without_handlers
 
 # app = Client("my_account", api_id=api_id, api_hash=api_hash)
 app = Client("my_account")
@@ -33,7 +34,7 @@ app.add_handler(message_handler.MessageHandler(google_search, filters=filters.co
 app.add_handler(message_handler.MessageHandler(beautiful_type, filters=filters.command("type", prefixes=".") & filters.me))
 app.add_handler(message_handler.MessageHandler(short_tanks, filters=filters.command("спс", prefixes=".") & filters.me))
 app.add_handler(message_handler.MessageHandler(change_im_here, filters=filters.command("тут", prefixes=".") & filters.me))
-app.add_handler(message_handler.MessageHandler(im_not_at_home))
+app.add_handler(message_handler.MessageHandler(without_handlers))
 
 app.run()
 
