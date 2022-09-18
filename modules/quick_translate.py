@@ -8,8 +8,8 @@ import random
 def quick_translate(client, message: Message, lang_1, lang_2):
     #lang_1 = fr | lang_2 = uk
     message_text = message.text
-    translate_1 = translateFunc(message_text, lang_1, lang_2)
-    translate_2 = translateFunc(message_text, lang_2, lang_1)
+    translate_1 = translateFunc(message_text, lang_2, lang_1)
+    translate_2 = translateFunc(message_text, lang_1, lang_2)
 
     trans_text = ""
     if translate_1 != message_text:
@@ -17,7 +17,8 @@ def quick_translate(client, message: Message, lang_1, lang_2):
     else:
         trans_text = translate_2
 
-    text = f"{message.from_user.first_name}:\n\n{trans_text}"
+    # text = f"{message.from_user.first_name}:\n\n{trans_text}"
+    text = f"{message.from_user.first_name}:\n\n{translate_1}\n\n{translate_2}"
     
     reply_message_id = message.id
 
