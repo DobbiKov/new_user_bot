@@ -19,6 +19,7 @@ from handlers.shortcuts import short_tanks
 from handlers.beautiful_type import beautiful_type
 from handlers.google_search import google_search
 from handlers.mafia_call import mafia
+from handlers.chatgpt_handler import chatgpt_handler
 from handlers.get_chat_id import get_chat_id
 from handlers.without_handlers import without_handlers
 from handlers.add_chat import add_chat_handler
@@ -43,6 +44,7 @@ def main():
 
     app.add_handler(message_handler.MessageHandler(get_chat_id, filters=filters.command("get_chat_id", prefixes="#") & filters.me))
     app.add_handler(message_handler.MessageHandler(mafia, filters=filters.command("mafia", prefixes="#") & filters.me))
+    app.add_handler(message_handler.MessageHandler(chatgpt_handler, filters=filters.command("chatgpt", prefixes="#") & filters.me))
     app.add_handler(message_handler.MessageHandler(google_search, filters=filters.command("23", prefixes="#")))
     app.add_handler(message_handler.MessageHandler(beautiful_type, filters=filters.command("type", prefixes=".") & filters.me))
     app.add_handler(message_handler.MessageHandler(short_tanks, filters=filters.command("спс", prefixes=".") & filters.me))
@@ -53,6 +55,8 @@ def main():
     app.add_handler(message_handler.MessageHandler(without_handlers))
 
     print("The bot was started!")
+    my_id = 716720991
+    # app.send_message(my_id, "The bot had been started!")
     app.run()
 
 if __name__ == '__main__':
