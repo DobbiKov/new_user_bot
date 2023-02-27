@@ -3,7 +3,7 @@ from pyrogram import types
 from modules.translate_voice import delete_files, translate_voice, convert_ogg_wav, translate_voice_texts, translate_voice_text, text_to_speech
 
 async def get_voice(client: Client, message: types.Message):
-    if message.chat.id < 0 and message.chat.id != -1001711218638 and message.chat.id != -640017880:
+    if message.chat.id != -1001711218638 and message.chat.id != -640017880:
         return False
     new_mess = await client.send_message(message.chat.id, "Please, wait...")
     # await client.send_message(message.chat.id, "о, повідомлення голосове")
